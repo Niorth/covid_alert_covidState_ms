@@ -1,9 +1,7 @@
 package fr.projetiwa.covid_alert_covidState_ms.controllers;
 
 import fr.projetiwa.covid_alert_covidState_ms.models.Covid_state;
-import fr.projetiwa.covid_alert_covidState_ms.models.Person_state;
 import fr.projetiwa.covid_alert_covidState_ms.repositories.Covid_stateRepository;
-import fr.projetiwa.covid_alert_covidState_ms.repositories.Person_stateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

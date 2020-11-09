@@ -8,25 +8,17 @@ public class SuperClassPosition {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long position_id;
+    private long positionId;
     protected Float longitude;
-    protected Date position_date;
+    protected Date positionDate;
     protected Float latitude;
 
-    public long getPosition_id() {
-        return position_id;
+    public long getPositionId() {
+        return positionId;
     }
 
-    public void setPosition_id(long position_id) {
-        this.position_id = position_id;
-    }
-
-    public Float getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Float latitude) {
-        this.latitude = latitude;
+    public void setPositionId(long positionId) {
+        this.positionId = positionId;
     }
 
     public Float getLongitude() {
@@ -37,11 +29,19 @@ public class SuperClassPosition {
         this.longitude = longitude;
     }
 
-    public Date getPosition_date() {
-        return position_date;
+    public Date getPositionDate() {
+        return positionDate;
     }
 
-    public void setPosition_date(Date position_date) {
-        this.position_date = position_date;
+    public void setPositionDate(Date positionDate) {
+        this.positionDate = positionDate;
+    }
+
+    public Float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
     }
 }

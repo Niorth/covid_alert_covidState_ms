@@ -6,33 +6,33 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name="person_state")
+@Entity(name="personState")
 @Access(AccessType.FIELD)
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Person_state {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long person_state_id;
+    private long personStateId;
 
     @ManyToOne
-    @JoinColumn(name = "person_id")
+    @JoinColumn(name = "personId")
     @JsonIgnore
     private Person person;
 
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "covid_state_id")
+    @JoinColumn(name = "covidStateId")
     @JsonIgnore
-    private Covid_state covid_state;
+    private Covid_state covidState;
 
-    public long getPerson_state_id() {
-        return person_state_id;
+    public long getPersonStateId() {
+        return personStateId;
     }
 
-    public void setPerson_state_id(long person_state_id) {
-        this.person_state_id = person_state_id;
+    public void setPersonStateId(long personStateId) {
+        this.personStateId = personStateId;
     }
 
     public Person getPerson() {
@@ -51,12 +51,12 @@ public class Person_state {
         this.date = date;
     }
 
-    public Covid_state getCovid_state() {
-        return covid_state;
+    public Covid_state getCovidState() {
+        return covidState;
     }
 
-    public void setCovid_state(Covid_state covid_state) {
-        this.covid_state = covid_state;
+    public void setCovid_state(Covid_state covidState) {
+        this.covidState = covidState;
     }
 
 }

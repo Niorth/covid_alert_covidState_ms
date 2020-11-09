@@ -7,40 +7,29 @@ import javax.persistence.*;
 import java.util.List;
 
 
-@Entity(name="covid_state")
+@Entity(name="covidState")
 @Access(AccessType.FIELD)
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Covid_state {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long state_id;
-    private String state_label;
+    private long stateId;
+    private String stateLabel;
 
-    /*@OneToMany(mappedBy = "covid_state")
-    private List<Person_state> state_persons;
-*/
-    public long getState_id() {
-        return state_id;
+    public long getStateId() {
+        return stateId;
     }
 
-    public void setState_id(long state_id) {
-        this.state_id = state_id;
+    public void setStateId(long stateId) {
+        this.stateId = stateId;
     }
 
-    public String getState_label() {
-        return state_label;
+    public String getStateLabel() {
+        return stateLabel;
     }
 
-    public void setState_label(String state_label) {
-        this.state_label = state_label;
+    public void setStateLabel(String stateLabel) {
+        this.stateLabel = stateLabel;
     }
-/*
-    public List<Person_state> getState_persons() {
-        return state_persons;
-    }
-
-    public void setState_persons(List<Person_state> state_persons) {
-        this.state_persons = state_persons;
-    }*/
 }
