@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Change CovidState</title>
 </head>
 <body>
-$END$
+<div>
+    Current State: <span th:text="${personState}"></span>
+</div>
+<div>
+    <form id="register_form">
+        <p>Please select your new state :</p>
+        <div>
+            <input type="radio" id="covidStateChoice2" name="stateId" value="1">
+            <label for="covidStateChoice2">Positive</label>
+
+            <input type="radio" id="covidStateChoice1" name="stateId" value="2">
+            <label for="covidStateChoice1">Negative</label>
+        </div>
+        <div>
+            <button type="submit">Update my state</button>
+        </div>
+    </form>
+</div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    const serialize_form = form => JSON.stringify(
+        Array.from(new FormData(form).entries())
+            .reduce((m, [ key, value ]) => Object.assign(m, { [key]: value }), {})
+    );
+
+    $('#register_form').on('submit', function(event) {
+        event.preventDefault();
+        const json = serialize_form(this);
+        console.log(json);
+        $.ajax({
+            type: 'POST',
+            url: '/personState/update/',
+            dataType: 'json',
+            data: json,
+            contentType: 'application/json',
+            success: function(data) {
+                alert(data)
+            }
+        });
+    });
+
+</script>
+
 </html>
