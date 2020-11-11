@@ -32,6 +32,17 @@ public class PersonState {
     @JsonIgnore
     private CovidState covidState;
 
+    public PersonState(){
+
+    }
+
+    public PersonState(long personStateId, long personId, Date date, CovidState covidState) {
+        this.personStateId = personStateId;
+        this.personId = personId;
+        this.date = date;
+        this.covidState = covidState;
+    }
+
     public long getPersonStateId() {
         return personStateId;
     }
@@ -52,8 +63,7 @@ public class PersonState {
         return covidState;
     }
 
-    public void setCovid_state(CovidState covidState) {
+    public void setCovidState(CovidState covidState) {
         this.covidState = covidState;
     }
-
 }
