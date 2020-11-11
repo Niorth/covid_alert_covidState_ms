@@ -10,13 +10,19 @@ import java.util.List;
 @Entity(name="covidState")
 @Access(AccessType.FIELD)
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-public class Covid_state {
+public class CovidState {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long stateId;
     private String stateLabel;
 
+    public CovidState(long stateId, String stateLabel) {
+        this.stateId = stateId;
+        this.stateLabel = stateLabel;
+    }
+    public CovidState() {
+    }
     public long getStateId() {
         return stateId;
     }
