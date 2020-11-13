@@ -25,7 +25,9 @@
 </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
+
+    var personId =/*[[${personId}]]*/ null;
 
     const serialize_form = form => JSON.stringify(
         Array.from(new FormData(form).entries())
@@ -35,10 +37,9 @@
     $('#register_form').on('submit', function(event) {
         event.preventDefault();
         const json = serialize_form(this);
-        console.log(json);
         $.ajax({
             type: 'POST',
-            url: '/personState/update/',
+            url: '/personState/update/'+personId,
             dataType: 'json',
             data: json,
             contentType: 'application/json',
