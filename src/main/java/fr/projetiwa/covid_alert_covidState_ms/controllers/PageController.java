@@ -5,6 +5,8 @@ import fr.projetiwa.covid_alert_covidState_ms.models.CovidState;
 import fr.projetiwa.covid_alert_covidState_ms.models.PersonState;
 import fr.projetiwa.covid_alert_covidState_ms.repositories.CovidStateRepository;
 import fr.projetiwa.covid_alert_covidState_ms.repositories.PersonStateRepository;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
@@ -34,13 +36,15 @@ public class PageController {
     }
 
     @PostMapping("/personState/update/{personId}")
-    public String changePersonState(@PathVariable Long personId, @RequestParam(value = "stateId") Long stateId){
-        System.out.println(stateId);
-        PersonState personState = personStateRepository.getLastPersonStateByPersonId(personId);
-        CovidState newCovidState = covidStateRepository.getCovidStateByStateId(stateId);
-        personState.setDate(Date.from(Instant.now()));
-        personState.setCovidState(newCovidState);
-        //personStateRepository.saveAndFlush(personState);
+    public String changePersonState(@PathVariable Long personId, @RequestBody String JsonStateId){
+        JSONObject json = new JSONObject(JsonStateId);
+        Long stateId = json.getLong("stateId");
+        CovidState selectedCovidState = covidStateRepository.getCovidStateByStateId(stateId);
+        PersonState newPersonState = new PersonState();
+        newPersonState.setPersonId(personId);
+        newPersonState.setDate(Date.from(Instant.now()));
+        newPersonState.setCovidState(selectedCovidState);
+        personStateRepository.saveAndFlush(newPersonState);
         return "changeCovidState";
     }
 }
