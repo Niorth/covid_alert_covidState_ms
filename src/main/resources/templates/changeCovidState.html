@@ -6,15 +6,16 @@
 </head>
 <body>
 <div>
-    Current State: <span th:text="${personState}"></span>
+    Current State: <span th:text="${personState.getCovidState().stateLabel}"></span>
 </div>
 <div>
     <form id="register_form">
         <p>Please select your new state :</p>
-        <div>
+        <div th:if="${personState.getCovidState().stateId}==0 or ${personState.getCovidState().stateId}==2">
             <input type="radio" id="covidStateChoice2" name="stateId" value="1">
             <label for="covidStateChoice2">Positive</label>
-
+        </div>
+        <div th:if="${personState.getCovidState().stateId}==0 or ${personState.getCovidState().stateId}==1">
             <input type="radio" id="covidStateChoice1" name="stateId" value="2">
             <label for="covidStateChoice1">Negative</label>
         </div>
@@ -44,7 +45,7 @@
             data: json,
             contentType: 'application/json',
             success: function(data) {
-                alert(data)
+                console.log(data)
             }
         });
     });

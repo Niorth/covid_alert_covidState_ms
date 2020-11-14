@@ -23,28 +23,12 @@ public class PageController {
     @Autowired
     private PersonStateRepository personStateRepository ;
 
-    @Autowired
-    private CovidStateRepository covidStateRepository ;
-
     @GetMapping
     @RequestMapping("personState/update/{personId}")
     public String changePersonState(@PathVariable Long personId, Model model){
-        String personState = personStateRepository.getLastCovidStateLabelByPersonId(personId);
+        PersonState personState = personStateRepository.getLastPersonStateStateByPersonId(personId);
         model.addAttribute("personId",personId);
         model.addAttribute("personState",personState);
-        return "changeCovidState";
-    }
-
-    @PostMapping("/personState/update/{personId}")
-    public String changePersonState(@PathVariable Long personId, @RequestBody String JsonStateId){
-        JSONObject json = new JSONObject(JsonStateId);
-        Long stateId = json.getLong("stateId");
-        CovidState selectedCovidState = covidStateRepository.getCovidStateByStateId(stateId);
-        PersonState newPersonState = new PersonState();
-        newPersonState.setPersonId(personId);
-        newPersonState.setDate(Date.from(Instant.now()));
-        newPersonState.setCovidState(selectedCovidState);
-        personStateRepository.saveAndFlush(newPersonState);
         return "changeCovidState";
     }
 }

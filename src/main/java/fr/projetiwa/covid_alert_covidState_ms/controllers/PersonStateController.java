@@ -1,13 +1,15 @@
 package fr.projetiwa.covid_alert_covidState_ms.controllers;
 
+import fr.projetiwa.covid_alert_covidState_ms.models.CovidState;
 import fr.projetiwa.covid_alert_covidState_ms.models.PersonState;
+import fr.projetiwa.covid_alert_covidState_ms.repositories.CovidStateRepository;
 import fr.projetiwa.covid_alert_covidState_ms.repositories.PersonStateRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -15,6 +17,9 @@ import java.util.List;
 public class PersonStateController {
     @Autowired
     private PersonStateRepository personStateRepository ;
+
+    @Autowired
+    private CovidStateRepository covidStateRepository ;
 
     @GetMapping
     public List<PersonState> list () {
@@ -28,6 +33,19 @@ public class PersonStateController {
             return true;
         }
         return false;
+    }
+
+    @PostMapping("/update/{personId}")
+    public Boolean changePersonState(@PathVariable Long personId, @RequestBody String req){
+        JSONObject json = new JSONObject(req);
+        Long stateId = json.getLong("stateId");
+        CovidState selectedCovidState = covidStateRepository.getCovidStateByStateId(stateId);
+        PersonState newPersonState = new PersonState();
+        newPersonState.setPersonId(personId);
+        newPersonState.setDate(Date.from(Instant.now()));
+        newPersonState.setCovidState(selectedCovidState);
+        personStateRepository.saveAndFlush(newPersonState);
+        return true;
     }
 
 }
