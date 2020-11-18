@@ -22,8 +22,9 @@ public class PageController {
     private PersonStateRepository personStateRepository ;
 
     @GetMapping
-    @RequestMapping("personState/update/{personId}")
-    public String changePersonState(@PathVariable Long personId, Model model){
+    @RequestMapping("personState/update")
+    public String changePersonState(Principal principal, Model model){
+        String personId = principal.getName();
         PersonState personState = personStateRepository.getLastPersonStateStateByPersonId(personId);
         model.addAttribute("personId",personId);
         model.addAttribute("personState",personState);

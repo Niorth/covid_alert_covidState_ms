@@ -5,6 +5,7 @@
     <title>Change CovidState</title>
 </head>
 <body>
+
 <div>
     Current State: <span th:text="${personState.getCovidState().stateLabel}"></span>
 </div>
@@ -20,15 +21,15 @@
             <label for="covidStateChoice1">Negative</label>
         </div>
         <div>
-            <button type="submit">Update my state</button>
+            <button id="submit-btn" type="submit">Update my state</button>
         </div>
     </form>
 </div>
+
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" th:inline="javascript">
 
-    var personId =/*[[${personId}]]*/ null;
 
     const serialize_form = form => JSON.stringify(
         Array.from(new FormData(form).entries())
@@ -40,12 +41,14 @@
         const json = serialize_form(this);
         $.ajax({
             type: 'POST',
-            url: '/personState/update/'+personId,
+            url: '/personState/update',
             dataType: 'json',
             data: json,
             contentType: 'application/json',
             success: function(data) {
                 console.log(data)
+                alert("Your status have been updated successfuly")
+                $("#submit-btn").attr("disabled", true);
             }
         });
     });

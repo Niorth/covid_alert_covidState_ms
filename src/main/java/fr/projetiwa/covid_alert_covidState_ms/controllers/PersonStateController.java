@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -35,10 +36,11 @@ public class PersonStateController {
         return false;
     }
 
-    @PostMapping("/update/{personId}")
-    public Boolean changePersonState(@PathVariable String personId, @RequestBody String req){
+    @PostMapping("/update")
+    public Boolean changePersonState(Principal principal, @RequestBody String req){
         JSONObject json = new JSONObject(req);
         Long stateId = json.getLong("stateId");
+        String personId = principal.getName();
         CovidState selectedCovidState = covidStateRepository.getCovidStateByStateId(stateId);
         PersonState newPersonState = new PersonState();
         newPersonState.setPersonId(personId);
