@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table>
+        <th:block th:each="personState : ${personStates}">
+            <tr>
+                <td th:text="${personState.getDate()} + ' : ' + ${personState.getCovidState().getStateLabel()}"></td>
+            </tr>
+        </th:block>
+    </table>
+
+</body>
+</html>

@@ -36,7 +36,7 @@ public class PersonStateController {
     }
 
     @PostMapping("/update/{personId}")
-    public Boolean changePersonState(@PathVariable Long personId, @RequestBody String req){
+    public Boolean changePersonState(@PathVariable String personId, @RequestBody String req){
         JSONObject json = new JSONObject(req);
         Long stateId = json.getLong("stateId");
         CovidState selectedCovidState = covidStateRepository.getCovidStateByStateId(stateId);

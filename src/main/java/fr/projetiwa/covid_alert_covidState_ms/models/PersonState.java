@@ -15,15 +15,15 @@ public class PersonState {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long personStateId;
 
-    public long getPersonId() {
+    public String getPersonId() {
         return personId;
     }
 
-    public void setPersonId(long personId) {
+    public void setPersonId(String personId) {
         this.personId = personId;
     }
 
-    private long personId;
+    private String personId;
 
     private Date date;
 
@@ -36,7 +36,7 @@ public class PersonState {
 
     }
 
-    public PersonState(long personStateId, long personId, Date date, CovidState covidState) {
+    public PersonState(long personStateId, String personId, Date date, CovidState covidState) {
         this.personStateId = personStateId;
         this.personId = personId;
         this.date = date;
