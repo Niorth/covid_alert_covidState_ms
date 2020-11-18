@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.time.Instant;
 import java.util.Date;
@@ -26,9 +27,9 @@ public class PersonStateController {
     public List<PersonState> list () {
         return personStateRepository.findAll(); }
 
-    @GetMapping
-    @RequestMapping("/isNegative")
-    public Boolean isNegative (@RequestParam("personId") long personId) {
+    @GetMapping("/isNegative")
+    public Boolean isNegative (Principal principal) {
+        String personId = principal.getName();
         String covidStateLabel = personStateRepository.getLastCovidStateLabelByPersonId(personId);
         if(covidStateLabel.equals("negative")){
             return true;
