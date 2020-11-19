@@ -1,14 +1,18 @@
 package fr.projetiwa.covid_alert_covidState_ms.controllers;
 
+
 import fr.projetiwa.covid_alert_covidState_ms.models.CovidState;
 import fr.projetiwa.covid_alert_covidState_ms.models.PersonState;
 import fr.projetiwa.covid_alert_covidState_ms.repositories.CovidStateRepository;
 import fr.projetiwa.covid_alert_covidState_ms.repositories.PersonStateRepository;
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.time.Instant;
 import java.util.Date;
@@ -28,12 +32,22 @@ public class PersonStateController {
         return personStateRepository.findAll(); }
 
     @GetMapping("/isNegative")
-    public Boolean isNegative (Principal principal) {
-        String personId = principal.getName();
-        String covidStateLabel = personStateRepository.getLastCovidStateLabelByPersonId(personId);
-        if(covidStateLabel.equals("negative")){
-            return true;
+    public Boolean isNegative (@RequestHeader (name="Authorization") String token) {
+        String payload = token.split("\\.")[1];
+
+        try {
+            String str = new String(Base64.decodeBase64(payload),"UTF-8");
+            JSONObject jsonObject = new JSONObject(str);
+
+            String personId = jsonObject.getString("sub");
+            String covidStateLabel = personStateRepository.getLastCovidStateLabelByPersonId(personId);
+            if(covidStateLabel.equals("negative")){
+                return true;
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
+
         return false;
     }
 
