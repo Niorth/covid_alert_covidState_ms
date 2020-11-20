@@ -38,4 +38,6 @@ public class CovidState {
     public void setStateLabel(String stateLabel) {
         this.stateLabel = stateLabel;
     }
+
+    public boolean isPositive(){return this.stateId==1;}
 }
