@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class PersonStateController {
     @GetMapping("/isNegative")
     public Boolean isNegative (@RequestHeader (name="Authorization") String token) {
         String payload = token.split("\\.")[1];
-
+        System.out.println(token);
         try {
             String str = new String(Base64.decodeBase64(payload),"UTF-8");
             JSONObject jsonObject = new JSONObject(str);
@@ -42,6 +43,37 @@ public class PersonStateController {
             String personId = jsonObject.getString("sub");
             String covidStateLabel = personStateRepository.getLastCovidStateLabelByPersonId(personId);
             if(covidStateLabel.equals("negative")){
+                return true;
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    @GetMapping("/isNew")
+    public Boolean isNew (@RequestHeader (name="Authorization") String token) {
+        String payload = token.split("\\.")[1];
+        System.out.println(token);
+        try {
+            String str = new String(Base64.decodeBase64(payload),"UTF-8");
+            JSONObject jsonObject = new JSONObject(str);
+
+            String personId = jsonObject.getString("sub");
+
+            ArrayList<PersonState> list = personStateRepository.getAllPersonStateByPersonId(personId);
+
+            if(list.size() == 0){
+
+                CovidState negativeCovidState = covidStateRepository.getCovidStateByStateLabel("negative");
+
+                PersonState newPersonState = new PersonState();
+                newPersonState.setPersonId(personId);
+                newPersonState.setDate(Date.from(Instant.now()));
+                newPersonState.setCovidState(negativeCovidState);
+
+                personStateRepository.saveAndFlush(newPersonState);
+
                 return true;
             }
         } catch (UnsupportedEncodingException e) {
