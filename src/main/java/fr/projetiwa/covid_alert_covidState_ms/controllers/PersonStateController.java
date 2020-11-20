@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -54,10 +55,40 @@ public class PersonStateController {
         return false;
     }
 
+    @GetMapping("/isNew")
+    public Boolean isNew (@RequestHeader (name="Authorization") String token) {
+        String payload = token.split("\\.")[1];
+        System.out.println(token);
+        try {
+            String str = new String(Base64.decodeBase64(payload),"UTF-8");
+            JSONObject jsonObject = new JSONObject(str);
+
+            String personId = jsonObject.getString("sub");
+
+            ArrayList<PersonState> list = personStateRepository.getAllPersonStateByPersonId(personId);
+
+            if(list.size() == 0){
+
+                CovidState negativeCovidState = covidStateRepository.getCovidStateByStateLabel("negative");
+
+                PersonState newPersonState = new PersonState();
+                newPersonState.setPersonId(personId);
+                newPersonState.setDate(Date.from(Instant.now()));
+                newPersonState.setCovidState(negativeCovidState);
+
+                personStateRepository.saveAndFlush(newPersonState);
+
+                return true;
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     @PostMapping("/update")
     public String changePersonState(@RequestHeader (name="Authorization") String token, @RequestBody String req){
         String payload = token.split("\\.")[1];
-
         try {
             String str = new String(Base64.decodeBase64(payload),"UTF-8");
             JSONObject jsonObject = new JSONObject(str);
@@ -70,7 +101,6 @@ public class PersonStateController {
             newPersonState.setDate(Date.from(Instant.now()));
             newPersonState.setCovidState(selectedCovidState);
             personStateRepository.saveAndFlush(newPersonState);
-
 
             //Check if new state is positive
             if(selectedCovidState.isPositive()){
@@ -86,16 +116,9 @@ public class PersonStateController {
                 ResponseEntity<String> response = restTemplate.exchange( serviceUrl, HttpMethod.POST, request, String.class, 1 );
             }
 
-
-
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
-
-
-
-
         return "{\"success\":1}";
     }
 
