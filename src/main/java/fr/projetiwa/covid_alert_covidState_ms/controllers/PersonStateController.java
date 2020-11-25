@@ -86,6 +86,13 @@ public class PersonStateController {
         return false;
     }
 
+    /**
+     * Change the user state with, new state is received from body in JSON
+     * If the new state is "Positive", a request to position microservice is done to set all the last user positions as suspicious.
+     * @param token
+     * @param req Http Body
+     * @return JSON Success 0 or 1
+     */
     @PostMapping("/update")
     public String changePersonState(@RequestHeader (name="Authorization") String token, @RequestBody String req){
         String payload = token.split("\\.")[1];
