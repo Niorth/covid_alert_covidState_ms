@@ -23,7 +23,10 @@
     <div class="container">
         <div class="row justify-content-md-center">
             <h2>
-                Current State: <span class="badge badge-pill badge-light" th:text="${personState.getCovidState().stateLabel}"></span>
+                Current State:
+                <span th:if="${personState.getCovidState().stateId}==0" class="badge badge-pill badge-light" th:text="${personState.getCovidState().stateLabel}"></span>
+                <span th:if="${personState.getCovidState().stateId}==1" class="badge badge-pill badge-danger" th:text="${personState.getCovidState().stateLabel}"></span>
+                <span th:if="${personState.getCovidState().stateId}==2" class="badge badge-pill badge-success" th:text="${personState.getCovidState().stateLabel}"></span>
             </h2>
         </div>
         <div class="row">
