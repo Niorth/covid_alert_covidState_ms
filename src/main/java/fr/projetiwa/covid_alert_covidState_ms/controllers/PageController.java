@@ -38,7 +38,12 @@ public class PageController {
     }
 
 
-
+    /**
+     * get all the personStates of a user
+     * @param model
+     * @param principal
+     * @return the html page
+     */
     @GetMapping
     @RequestMapping("personState/states")
     public String personState(Model model, Principal principal){
