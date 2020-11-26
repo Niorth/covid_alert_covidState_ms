@@ -48,8 +48,14 @@ public class PersonStateController {
             JSONObject jsonObject = new JSONObject(str);
 
             String personId = jsonObject.getString("sub");
-            String covidStateLabel = personStateRepository.getLastCovidStateLabelByPersonId(personId);
+            System.out.println(personId);
+            PersonState personState = personStateRepository.getLastPersonStateStateByPersonId(personId);
+            String covidStateLabel = personState.getCovidState().getStateLabel();
+            System.out.println(personState.getDate());
+            System.out.println(personState.getCovidState().getStateId());
+
             if(covidStateLabel.equals("negative")){
+                System.out.println(covidStateLabel);
                 return true;
             }
         } catch (UnsupportedEncodingException e) {
@@ -58,6 +64,38 @@ public class PersonStateController {
 
         return false;
     }
+
+    /**
+     * informs if user is contact
+     * @param token
+     * @return Boolean true if the user isContact false otherwise
+     */
+    @GetMapping("/isContact")
+    public Boolean isContact (@RequestHeader (name="Authorization") String token) {
+        String payload = token.split("\\.")[1];
+
+        try {
+            String str = new String(Base64.decodeBase64(payload),"UTF-8");
+            JSONObject jsonObject = new JSONObject(str);
+
+            String personId = jsonObject.getString("sub");
+            System.out.println(personId);
+            PersonState personState = personStateRepository.getLastPersonStateStateByPersonId(personId);
+            String covidStateLabel = personState.getCovidState().getStateLabel();
+            System.out.println(personState.getDate());
+            System.out.println(personState.getCovidState().getStateId());
+
+            if(covidStateLabel.equals("contact")){
+                System.out.println(covidStateLabel);
+                return true;
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     /**
      * informs if user is new
      * If the user isNew, a covidState is created for him
