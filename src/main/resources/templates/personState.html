@@ -41,7 +41,7 @@
                 <table>
                     <th:block th:each="personState : ${personStates}">
                         <tr>
-                            <td th:text="${personState.getDate().getDay()} + '/' + ${personState.getDate().getMonth()} + '/' + ${personState.getDate().getYear()} + ' : ' + ${personState.getCovidState().getStateLabel()}"></td>
+                            <td th:text="${personState.getDate().toString().split(' ')[0]} + ' : ' + ${personState.getCovidState().getStateLabel()}"></td>
                         </tr>
                     </th:block>
                 </table>
@@ -49,8 +49,6 @@
         </div>
     </div>
 </section>
-
-
 
 <!-- Footer -->
 <footer class="py-5 bg-dark">
