@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity(name="personState")
@@ -66,4 +67,17 @@ public class PersonState {
     public void setCovidState(CovidState covidState) {
         this.covidState = covidState;
     }
+
+    /**
+     * Check if the user is allowed to change is State
+     * (He cannot change status if positive at covid-19 less than 7 days ago)
+     * @return
+     */
+    public boolean forbiddenUpdateState(){
+        Long sevenDaysAgo = new Date().getTime() - (7*24*3600*1000);
+        return (this.getDate().after(new Date(sevenDaysAgo)) && this.getCovidState().getStateId()==1);
+    }
+
+
+
 }
