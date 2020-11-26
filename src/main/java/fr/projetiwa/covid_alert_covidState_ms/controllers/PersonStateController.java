@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
-import java.security.Principal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +34,11 @@ public class PersonStateController {
     public List<PersonState> list () {
         return personStateRepository.findAll(); }
 
+    /**
+     * informs if user is negative
+     * @param token
+     * @return Boolean true if the user isNegative false otherwise
+     */
     @GetMapping("/isNegative")
     public Boolean isNegative (@RequestHeader (name="Authorization") String token) {
         String payload = token.split("\\.")[1];
@@ -54,7 +58,12 @@ public class PersonStateController {
 
         return false;
     }
-
+    /**
+     * informs if user is new
+     * If the user isNew, a covidState is created for him
+     * @param token
+     * @return Boolean true if the user isNew false otherwise
+     */
     @GetMapping("/isNew")
     public Boolean isNew (@RequestHeader (name="Authorization") String token) {
         String payload = token.split("\\.")[1];
@@ -86,6 +95,13 @@ public class PersonStateController {
         return false;
     }
 
+    /**
+     * Change the user state with, new state is received from body in JSON
+     * If the new state is "Positive", a request to position microservice is done to set all the last user positions as suspicious.
+     * @param token
+     * @param req Http Body
+     * @return JSON Success 0 or 1
+     */
     @PostMapping("/update")
     public String changePersonState(@RequestHeader (name="Authorization") String token, @RequestBody String req){
         String payload = token.split("\\.")[1];

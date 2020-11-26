@@ -15,7 +15,10 @@ import java.util.List;
 public class CovidStateController {
     @Autowired
     private CovidStateRepository covidStateRepository ;
-
+    /**
+     * get all the CovidState
+     * @return list of CovidState
+     */
     @GetMapping
     public List<CovidState> list () {
         return covidStateRepository.findAll();

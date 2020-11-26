@@ -21,6 +21,12 @@ public class PageController {
     @Autowired
     private PersonStateRepository personStateRepository ;
 
+    /**
+     *
+     * @param principal
+     * @param model
+     * @return the html page to fill the form and set the new personState
+     */
     @GetMapping
     @RequestMapping("personState/update")
     public String changePersonState(Principal principal, Model model){
@@ -32,7 +38,12 @@ public class PageController {
     }
 
 
-
+    /**
+     * get all the personStates of a user
+     * @param model
+     * @param principal
+     * @return the html page
+     */
     @GetMapping
     @RequestMapping("personState/states")
     public String personState(Model model, Principal principal){

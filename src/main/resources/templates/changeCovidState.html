@@ -3,28 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Change CovidState</title>
-</head>
-<body>
 
-<div>
-    Current State: <span th:text="${personState.getCovidState().stateLabel}"></span>
-</div>
-<div>
-    <form id="register_form">
-        <p>Please select your new state :</p>
-        <div th:if="${personState.getCovidState().stateId}==0 or ${personState.getCovidState().stateId}==2">
-            <input type="radio" id="covidStateChoice2" name="stateId" value="1">
-            <label for="covidStateChoice2">Positive</label>
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/scrolling-nav.css" rel="stylesheet">
+
+</head>
+<body id="page-top">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Covid-Alert</a>
+</nav>
+<section>
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <h2>
+                Current State:
+                <span th:if="${personState.getCovidState().stateId}==0" class="badge badge-pill badge-light" th:text="${personState.getCovidState().stateLabel}"></span>
+                <span th:if="${personState.getCovidState().stateId}==1" class="badge badge-pill badge-danger" th:text="${personState.getCovidState().stateLabel}"></span>
+                <span th:if="${personState.getCovidState().stateId}==2" class="badge badge-pill badge-success" th:text="${personState.getCovidState().stateLabel}"></span>
+            </h2>
         </div>
-        <div th:if="${personState.getCovidState().stateId}==0 or ${personState.getCovidState().stateId}==1">
-            <input type="radio" id="covidStateChoice1" name="stateId" value="2">
-            <label for="covidStateChoice1">Negative</label>
+        <div class="row">
+            <div>
+                <form id="register_form">
+                    <h3><U>Please select your new state :</U></h3>
+                    <div th:if="${personState.getCovidState().stateId}==0 or ${personState.getCovidState().stateId}==2" class="form-check">
+                        <input class="form-check-input" type="radio" id="covidStateChoice2" name="stateId" value="1">
+                        <label class="form-check-label" for="covidStateChoice2">Positive</label>
+                    </div>
+                    <div th:if="${personState.getCovidState().stateId}==0 or ${personState.getCovidState().stateId}==1">
+                        <input type="radio" id="covidStateChoice1" name="stateId" value="2">
+                        <label for="covidStateChoice1">Negative</label>
+                    </div>
+                    <div>
+                        <button id="submit-btn" class="btn btn-primary" type="submit">Update my state</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div>
-            <button id="submit-btn" type="submit">Update my state</button>
-        </div>
-    </form>
-</div>
+    </div>
+</section>
+
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom JavaScript for this theme -->
+<script src="/js/scrolling-nav.js"></script>
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
