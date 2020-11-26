@@ -97,6 +97,27 @@ public class PersonStateController {
     }
 
     /**
+     * Return the current state of the user
+     * @param token
+     * @return JSON 
+     */
+    @GetMapping("/currentstate")
+    public String getCurrentState(@RequestHeader (name="Authorization") String token){
+        String payload = token.split("\\.")[1];
+        String currentState = "undefined";
+        try {
+            String str = new String(Base64.decodeBase64(payload),"UTF-8");
+            JSONObject jsonObject = new JSONObject(str);
+            String personId = jsonObject.getString("sub");
+            PersonState personState = personStateRepository.getLastPersonStateStateByPersonId(personId);
+            currentState = personState.getCovidState().getStateLabel();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return "{\"success\":1, \"state\":"+currentState+"}";
+    }
+
+    /**
      * informs if user is new
      * If the user isNew, a covidState is created for him
      * @param token
