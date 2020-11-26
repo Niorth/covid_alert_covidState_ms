@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 
 @Controller
@@ -32,10 +34,14 @@ public class PageController {
     public String changePersonState(Principal principal, Model model){
         String personId = principal.getName();
         PersonState personState = personStateRepository.getLastPersonStateStateByPersonId(personId);
+
+        Boolean isForbiddenChange = personState.forbiddenUpdateState();
         model.addAttribute("personId",personId);
+        model.addAttribute("isForbiddenChange",isForbiddenChange);
         model.addAttribute("personState",personState);
         return "changeCovidState";
     }
+
 
 
     /**
