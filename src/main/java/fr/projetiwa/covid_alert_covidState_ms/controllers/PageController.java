@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.security.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 
 @Controller
@@ -55,6 +53,7 @@ public class PageController {
     public String personState(Model model, Principal principal){
         String personId = principal.getName();
         ArrayList<PersonState> personStates = personStateRepository.getAllPersonStateByPersonId(personId);
+        Collections.sort(personStates, Comparator.comparing(PersonState::getDate));
         model.addAttribute("personStates",personStates);
         return "personState";
     }
